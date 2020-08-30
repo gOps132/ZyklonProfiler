@@ -5,7 +5,8 @@ project(zyklon_profiler
     LANGUAGES       CXX
 )
 
-option(ZYKLON_PROFILER_BUILD_EXAMPLES   OFF)
+option(ZYKLON_PROFILER_BUILD_EXAMPLES "Build zyklon_profiler examples for some testing" OFF)
+option(ZYKLON_PROFILER_OUTPUT_LIBRARY "Output zyklon library to CMAKE_SOURCE_DIR/bin" OFF)
 
 set(SOURCES
     src/Timer.cpp
@@ -38,10 +39,14 @@ set_target_properties(zyklon_profiler PROPERTIES
 
     SOVERSION   ${PROJECT_VERSION_MAJOR}
     VERSION     ${PROJECT_VERSION}
-
-    LIBRARY_OUTPUT_DIRECTORY    "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
-    ARCHIVE_OUTPUT_DIRECTORY    "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
 )
+
+if(ZYKLON_PROFILER_OUTPUT_LIBRARY)
+    set_target_properties(zyklon_profiler PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+        ARCHIVE_OUTPUT_DIRECTORY "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+    )
+endif()
 
 target_include_directories(zyklon_profiler
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/include
