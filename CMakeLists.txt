@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(Zyklon_Profiler
+project(zyklon_profiler
     VERSION         1.0.0
     DESCRIPTION     "simple profiling library for Zyklon"
     LANGUAGES       CXX
@@ -12,7 +12,10 @@ set(SOURCES
     src/Track.cpp
 )
 
-add_library(${PROJECT_NAME} STATIC ${SOURCES})
+#----------------------------------------------------------
+# STATIC LIBRARY VERSION
+#----------------------------------------------------------
+add_library(zyklon_profiler STATIC ${SOURCES})
 
 set(EXAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/examples)
 set(TARGET_EXAMPLES
@@ -25,19 +28,31 @@ if(ZYKLON_PROFILER_BUILD_EXAMPLES)
         add_executable(${EXAMPLE} "${EXAMPLE_DIR}/${EXAMPLE}.cpp")
         # set_target_properties(${EXAMPLE} PROPERTIES)
         target_link_libraries(${EXAMPLE} 
-            PRIVATE ${PROJECT_NAME}
+            PRIVATE zyklon_profiler
         )
     endforeach()
 endif()
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY    "${ZYKLON_OUTPUT_BIN_DIR}/${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
+set_target_properties(zyklon_profiler PROPERTIES
+    LINKER_LANGUAGE CXX
 
     SOVERSION   ${PROJECT_VERSION_MAJOR}
     VERSION     ${PROJECT_VERSION}
+
+    LIBRARY_OUTPUT_DIRECTORY    "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+    ARCHIVE_OUTPUT_DIRECTORY    "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
 )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(zyklon_profiler
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/include
-    PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/private
+    PRIVATE      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
+)
+
+#----------------------------------------------------------
+# HEADER ONLY VERSION
+#----------------------------------------------------------
+add_library(zyklon_profiler_header_only INTERFACE)
+
+target_include_directories(zyklon_profiler_header_only INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )

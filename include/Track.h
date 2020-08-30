@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __TRACK_H__
+#define __TRACK_H__
 
 #include <vector>
 #include <string>
@@ -29,3 +30,5 @@ namespace zprof
     };
 
 } // namespace zprof
+
+#endif // __TRACK_H__

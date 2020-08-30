@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __TIMER_H__
+#define __TIMER_H__
+
 
 #include "Track.h"
 
@@ -23,3 +25,4 @@ namespace zprof
     };
 
 } // namespace zprof
+#endif // __TIMER_H__
