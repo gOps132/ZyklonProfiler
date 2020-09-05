@@ -25,8 +25,7 @@ namespace zprof
 
     public:
         void log_tracks_data();
-
-        // void output_tracks_json_file();
+        // void log_tracks_data_compare();
     };
 
 } // namespace zprof

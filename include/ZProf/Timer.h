@@ -7,7 +7,6 @@
 #include <chrono>
 #include <string>
 
-
 namespace zprof
 {
     class Timer : public Track
@@ -21,7 +20,8 @@ namespace zprof
         Timer(std::string prof_name);
         ~Timer();
 
-        void Stop();  
+        // template<size_t T, typename TN>
+        // void compare();
     };
 
 } // namespace zprof

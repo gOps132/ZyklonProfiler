@@ -1,4 +1,4 @@
-#include "Timer.h"
+#include "ZProf/Timer.h"
 
 #include <iostream>
 
@@ -15,15 +15,6 @@ namespace zprof
 
     Timer::~Timer()
     {
-        Stop();
-
-        // add new track
-        m_Tracks.push_back(m_data);
-        log_tracks_data();
-    }
-
-    void Timer::Stop()
-    {
         auto endTimePoint = std::chrono::high_resolution_clock::now();
 
         m_data->start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
@@ -31,6 +22,10 @@ namespace zprof
 
         m_data->duration = m_data->end - m_data->start;
         m_data->duration_ms = m_data->duration * 0.001;
+
+        // add new track
+        m_Tracks.push_back(m_data);
+        log_tracks_data();
     }
 
 } // namespace zprof

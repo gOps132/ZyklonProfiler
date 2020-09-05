@@ -43,14 +43,18 @@ set_target_properties(zyklon_profiler PROPERTIES
 
 if(ZYKLON_PROFILER_OUTPUT_LIBRARY)
     set_target_properties(zyklon_profiler PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
-        ARCHIVE_OUTPUT_DIRECTORY "${ZYKLON_OUTPUT_BIN_DIR}/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
     )
 endif()
 
 target_include_directories(zyklon_profiler
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/include
     PRIVATE      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
+)
+
+target_link_libraries(zyklon_profiler
+    PRIVATE      -lstdc++
 )
 
 #----------------------------------------------------------
