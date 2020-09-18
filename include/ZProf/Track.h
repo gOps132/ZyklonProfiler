@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#define ZPROF_DELETE_TRACKS zprof::Track::delete_tracks();
+
 namespace zprof
 {
 
@@ -26,6 +28,8 @@ namespace zprof
     public:
         void log_tracks_data();
         // void log_tracks_data_compare();
+
+        void delete_tracks();
     };
 
 } // namespace zprof

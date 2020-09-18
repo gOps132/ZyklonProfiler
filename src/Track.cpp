@@ -21,4 +21,12 @@ namespace zprof
         }
     }
 
+    void Track::delete_tracks()
+    {
+        for (int i = 0; i < m_Tracks.size(); i++)
+        {
+            delete m_Tracks[i];       
+        }
+    }
+
 } // namespace zprof

@@ -7,6 +7,8 @@
 #include <chrono>
 #include <string>
 
+#define ZPROF_TRACK_SCOPE(name) zprof::Timer* name = new zprof::Timer(name);
+
 namespace zprof
 {
     class Timer : public Track
