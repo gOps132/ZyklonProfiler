@@ -5,7 +5,6 @@ project(zyklon_profiler
     LANGUAGES       CXX
 )
 
-option(ZYKLON_PROFILER_BUILD_EXAMPLES "Build zyklon_profiler examples for some testing" OFF)
 option(ZYKLON_PROFILER_OUTPUT_LIBRARY "Output zyklon library to CMAKE_SOURCE_DIR/bin" OFF)
 
 set(SOURCES
@@ -23,17 +22,6 @@ set(TARGET_EXAMPLES
     zprof_example01
 )
 
-# build examples
-if(ZYKLON_PROFILER_BUILD_EXAMPLES)
-    foreach(EXAMPLE ${TARGET_EXAMPLES})
-        add_executable(${EXAMPLE} "${EXAMPLE_DIR}/${EXAMPLE}.cpp")
-        # set_target_properties(${EXAMPLE} PROPERTIES)
-        target_link_libraries(${EXAMPLE} 
-            PRIVATE zyklon_profiler
-        )
-    endforeach()
-endif()
-
 set_target_properties(zyklon_profiler PROPERTIES
     LINKER_LANGUAGE CXX
 
@@ -41,16 +29,23 @@ set_target_properties(zyklon_profiler PROPERTIES
     VERSION     ${PROJECT_VERSION}
 )
 
+option(ZYKLON_PROFILER_OUTPUT_ENABLE "set ZYKLON_OUTPUT_BIN_DIR to specified output directory" OFF)
+if(${ZYKLON_PROFILER_OUTPUT_ENABLE})
+    message("you have overriden ZYKLON_OUTPUT_BIN_DIR")
+else()
+    set(ZYKLON_PROFILER_OUTPUT_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+endif()
+
 if(ZYKLON_PROFILER_OUTPUT_LIBRARY)
     set_target_properties(zyklon_profiler PROPERTIES
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+        LIBRARY_OUTPUT_DIRECTORY "${ZYKLON_PROFILER_OUTPUT_BIN_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
+        ARCHIVE_OUTPUT_DIRECTORY "${ZYKLON_PROFILER_OUTPUT_BIN_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
     )
 endif()
 
 target_include_directories(zyklon_profiler
     PUBLIC      ${CMAKE_CURRENT_SOURCE_DIR}/include
-    PRIVATE      ${CMAKE_CURRENT_SOURCE_DIR}/vendor
+    PRIVATE     ${CMAKE_CURRENT_SOURCE_DIR}/vendor
 )
 
 target_link_libraries(zyklon_profiler
@@ -65,3 +60,20 @@ add_library(zyklon_profiler_header_only INTERFACE)
 target_include_directories(zyklon_profiler_header_only INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+#----------------------------------------------------------
+# BUILD EXAMPLES
+#----------------------------------------------------------
+option(ZYKLON_PROFILER_BUILD_EXAMPLES "Build zyklon_profiler examples for some testing" OFF)
+if(ZYKLON_PROFILER_BUILD_EXAMPLES)
+    foreach(EXAMPLE ${TARGET_EXAMPLES})
+        add_executable(${EXAMPLE} "${EXAMPLE_DIR}/${EXAMPLE}.cpp")
+        target_link_libraries(${EXAMPLE} 
+            PRIVATE     zyklon_profiler
+            PRIVATE     -lstdc++
+        )
+        set_target_properties(${EXAMPLE} PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY    "${CMAKE_CURRENT_SOURCE_DIR}/bin"
+        )
+    endforeach()
+endif()

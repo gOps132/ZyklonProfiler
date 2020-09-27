@@ -12,7 +12,7 @@ int main(int argc, const char **argv)
             {
             }
         }
-    }
+    }   
 
     {
         zprof::Timer* timer_two = new zprof::Timer("timer one");
@@ -24,4 +24,4 @@ int main(int argc, const char **argv)
         }
     }
     
-}
+} 
