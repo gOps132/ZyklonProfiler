@@ -29,14 +29,13 @@ set_target_properties(zyklon_profiler PROPERTIES
     VERSION     ${PROJECT_VERSION}
 )
 
-option(ZYKLON_PROFILER_OUTPUT_ENABLE "set ZYKLON_OUTPUT_BIN_DIR to specified output directory" OFF)
-if(${ZYKLON_PROFILER_OUTPUT_ENABLE})
+if(${ZYKLON_PROFILER_OUTPUT_BIN_DIR})
     message("you have overriden ZYKLON_OUTPUT_BIN_DIR")
 else()
     set(ZYKLON_PROFILER_OUTPUT_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
 endif()
 
-if(ZYKLON_PROFILER_OUTPUT_LIBRARY)
+if(${ZYKLON_PROFILER_OUTPUT_BIN_DIR})
     set_target_properties(zyklon_profiler PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${ZYKLON_PROFILER_OUTPUT_BIN_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
         ARCHIVE_OUTPUT_DIRECTORY "${ZYKLON_PROFILER_OUTPUT_BIN_DIR}/bin/zyklon_profiler-${CMAKE_BUILD_TYPE}"
