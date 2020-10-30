@@ -7,7 +7,8 @@
 #include <chrono>
 #include <string>
 
-#define ZPROF_TRACK_SCOPE(name) zprof::Timer* name = new zprof::Timer(name);
+#define ZPROF_TRACK_SCOPE_START(name) { zprof::Timer* name = new zprof::Timer(name);
+#define ZPROF_TRACK_SCOPE_END }
 
 namespace zprof
 {
@@ -21,9 +22,6 @@ namespace zprof
 
         Timer(std::string prof_name);
         ~Timer();
-
-        // template<size_t T, typename TN>
-        // void compare();
     };
 
 } // namespace zprof
